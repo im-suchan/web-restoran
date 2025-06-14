@@ -4,103 +4,140 @@
 
 @section('content')
 <div class="menu-page">
-    <section class="hero-section">
-        <h1>Menu Lezat Kami</h1>
-        <p>Temukan berbagai pilihan makanan terbaik kami</p>
+    <section class="hero-section text-center py-8 bg-yellow-100">
+        <h1 class="text-4xl font-bold">Menu Lezat Kami</h1>
+        <p class="text-lg text-gray-600 mt-2">Temukan berbagai pilihan makanan terbaik kami</p>
     </section>
 
-    <div class="container">
-        <div class="category-filter">
-            <button class="filter-btn active" data-category="all">Semua</button>
-            <button class="filter-btn" data-category="sarapan">Sarapan</button>
-            <button class="filter-btn" data-category="makanan-utama">Makanan Utama</button>
-            <button class="filter-btn" data-category="minuman">Minuman</button>
+    <div class="container-menu-makan">
+        <div class="category-filter flex justify-center gap-4 mb-6">
+            <a href="{{ route('menu') }}" class="filter-btn {{ request()->is('menu') && !request()->has('kategori') ? 'active' : '' }}">Semua</a>
+            <a href="{{ route('menu.kategori', 'Daging') }}" class="filter-btn {{ request()->is('menu/kategori/Daging') ? 'active' : '' }}">Daging</a>
+            <a href="{{ route('menu.kategori', 'Sayuran') }}" class="filter-btn {{ request()->is('menu/kategori/Sayuran') ? 'active' : '' }}">Sayuran</a>
+            <a href="{{ route('menu.kategori', 'Minuman') }}" class="filter-btn {{ request()->is('menu/kategori/Minuman') ? 'active' : '' }}">Minuman</a>
         </div>
 
-        <div class="menu-grid">
-            <!-- Item Menu 1 -->
-            <div class="menu-item" data-category="sarapan">
-                <div class="menu-card">
-                    <div class="menu-image">
-                        <img src="{{ asset('images/breakfast-food.jpg') }}" alt="Breakfast Food">
-                    </div>
-                    <div class="menu-details">
-                        <h3>Breakfast Food</h3>
-                        <p class="description">Menu sarapan sehat dengan bahan-bahan segar</p>
-                        <div class="price-action">
-                            <span class="price">Rp230.000</span>
-                            <button class="order-btn">Pesan Sekarang</button>
+        @if($products->isEmpty())
+            <div class="empty-menu text-center py-12">
+                <h3 class="text-xl text-gray-600">Belum ada produk tersedia</h3>
+                <p class="text-gray-500 mt-2">Silakan kembali lagi nanti</p>
+            </div>
+        @else
+            <div class="menu-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                @foreach ($products as $product)
+                    <div class="menu-item" data-category="{{ Str::slug($product->category, '-') }}">
+                        <div class="menu-card bg-white shadow rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <div class="menu-image">
+                                @if($product->foto)
+                                    <img src="{{ asset('storage/' . $product->foto) }}" 
+                                         alt="{{ $product->nama }}" 
+                                         class="w-full h-48 object-cover">
+                                @else
+                                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">
+                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="category-badge absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                    {{ $product->category }}
+                                </div>
+                            </div>
+                            <div class="menu-details p-4">
+                                <h3 class="text-xl font-semibold mb-2">{{ $product->nama }}</h3>
+                                @if($product->detail)
+                                    <p class="description text-gray-600 text-sm mb-3 line-clamp-2">{{ $product->detail }}</p>
+                                @else
+                                    <p class="description text-gray-400 text-sm mb-3 italic">Tidak ada deskripsi</p>
+                                @endif
+                                <div class="price-action flex justify-between items-center">
+                                    <span class="price text-lg font-bold text-green-600">
+                                        Rp {{ number_format($product->harga, 0, ',', '.') }}
+                                    </span>
+                                    <form action="{{ route('cart.add') }}" method="POST">
+  @csrf
+  <input type="hidden" name="product_id" value="{{ $product->id }}">
+  <button type="submit" 
+          class="order-btn bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition-colors duration-200">
+    Pesan Sekarang
+  </button>
+</form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-
-            <!-- Item Menu 2 -->
-            <div class="menu-item" data-category="sarapan">
-                <div class="menu-card">
-                    <div class="menu-image">
-                        <img src="{{ asset('images/health-breakfast.jpg') }}" alt="Health Breakfast">
-                    </div>
-                    <div class="menu-details">
-                        <h3>Health Breakfast</h3>
-                        <p class="description">Sarapan bergizi untuk awal hari yang sehat</p>
-                        <div class="price-action">
-                            <span class="price">Rp230.000</span>
-                            <button class="order-btn">Pesan Sekarang</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Item Menu 3 -->
-            <div class="menu-item" data-category="makanan-utama">
-                <div class="menu-card">
-                    <div class="menu-image">
-                        <img src="{{ asset('images/burger.jpg') }}" alt="Burger">
-                    </div>
-                    <div class="menu-details">
-                        <h3>Burger Juicy</h3>
-                        <p class="description">Burger dengan patty juicy dan topping lezat</p>
-                        <div class="price-action">
-                            <span class="price">Rp180.000</span>
-                            <button class="order-btn">Pesan Sekarang</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tambahkan item menu lainnya sesuai kebutuhan -->
-        </div>
+        @endif
     </div>
 </div>
-@endsection
 
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const menuItems = document.querySelectorAll('.menu-item');
+<style>
+.menu-image {
+    position: relative;
+}
+
+.category-badge {
+    z-index: 10;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.filter-btn:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: #e74a3b;
+    color: white;
+    border-color: #e74a3b;
+}
+
+.menu-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.container-menu-makan {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .category-filter {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
     
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            button.classList.add('active');
-            
-            const category = button.dataset.category;
-            
-            // Filter menu items
-            menuItems.forEach(item => {
-                if (category === 'all' || item.dataset.category === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-});
-</script>
-@endpush
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+</style>
+@endsection

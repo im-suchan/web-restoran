@@ -11,12 +11,13 @@ class AdminSeeder extends Seeder
     public function run()
     {
         DB::table('admins')->insert([
-            'name' => 'Warung Mbadog',
-            'email' => 'Warung@Mbadog.com',
-            'password' => Hash::make('12345678'), // Enkripsi password
-            'remember_token' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+    'name' => 'Admin Google',
+    'email' => 'zamzamnurs380@gmail.com',
+    'google_id' => null,
+    'avatar' => null,
+    'password' => null, // Password bisa null untuk Google-only admin
+    'created_at' => now(),
+    'updated_at' => now(),
+]);
     }
 }

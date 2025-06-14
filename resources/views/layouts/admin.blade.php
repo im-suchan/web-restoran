@@ -15,10 +15,8 @@
         <ul>
             <li><a href="{{ route('admin.dashboard') }}">Beranda</a></li>
             <li><a href="{{ route('admin.users.index') }}">User</a></li>
-
-            <li><a href="#">Data Produk</a></li>
-            <li><a href="#">Laporan</a></li>
-            <li><a href="#">Costumer</a></li>
+            <li><a href="{{ route('produk.index') }}">Produk</a></li>
+            <li><a href="{{ route('admin.orders.index') }}">Pesanan</a></li>
             <li><a href="{{ route('admin.account') }}">Manajemen Akun</a></li>
             <li>
                 <form action="{{ route('admin.logout') }}" method="POST">

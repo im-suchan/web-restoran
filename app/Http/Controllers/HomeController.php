@@ -15,12 +15,9 @@ class HomeController extends Controller
     public function index()
     {
         // Ambil data makanan terlaris (contoh: 3 makanan dengan rating tertinggi)
-        $terlaris = Makanan::orderBy('rating', 'desc')
-                          ->take(3)
-                          ->get();
-        
+        $makanan = Makanan::all();
         return view('home', [
-            'terlaris' => $terlaris
+            'makanan' => $makanan
         ]);
     }
 }

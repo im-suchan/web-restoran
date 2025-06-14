@@ -15,9 +15,8 @@
             <ul>
                 <li><a href="{{ route('home') }}">Beranda</a></li>
                 <li><a href="{{ route('menu') }}">Menu</a></li>
-                <li><a href="{{ route('reservation.index') }}">Reservasi</a></li>
                 <li><a href="{{ route('tentang') }}">Tentang Kami</a></li>
-                <li><a href="{{ route('kontak') }}">Kontak</a></li>
+                <li><a href="/keranjang">Keranjang</a></li>
                 <li><a href="{{ route('admin.login') }}">Login</a> </li>
 
             </ul>
@@ -36,7 +35,7 @@
                     <li><a href="{{ route('home') }}">BERANDA</a></li>
                     <li><a href="{{ route('menu') }}">KATEGORI</a></li>
                     <li><a href="{{ route('tentang') }}">TENTANG KAMI</a></li>
-                    <li><a href="{{ route('kontak') }}">KONTAK</a></li>
+                    <li><a href="#">KONTAK</a></li>
                     <li><a href="#">LAINNYA</a></li>
                 </ul>
             </div>
