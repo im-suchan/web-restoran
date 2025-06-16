@@ -71,13 +71,15 @@ Route::get('/pesan', function() {
 })->name('pesan');
 
 // Route admin untuk produk
-Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
-    Route::get('produk', [ProductController::class, 'index'])->name('produk.index');
-    Route::get('produk/tambah', [ProductController::class, 'create'])->name('produk.create');
-    Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
-    Route::get('produk/{id}/edit', [ProductController::class, 'edit'])->name('produk.edit');
-    Route::put('produk/{id}', [ProductController::class, 'update'])->name('produk.update');
-    Route::delete('produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy');
+Route::prefix('admin')->group(function () {
+    
+    // Routes untuk CRUD Produk
+    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
+    Route::get('/produk/create', [ProductController::class, 'create'])->name('produk.create');
+    Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+    Route::get('/produk/{id}/edit', [ProductController::class, 'edit'])->name('produk.edit');
+    Route::put('/produk/{id}', [ProductController::class, 'update'])->name('produk.update');
+    Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy');
 });
 
 // Route fallback jika diperlukan
